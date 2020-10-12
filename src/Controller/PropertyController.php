@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,11 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class PropertyController extends AbstractController
 {
 
+
+ 
   /**
    *
-   * @var PropertyRepository
+   * @var PropertyRepository $repositiry
+   * @var ObjectManager $em
    */
   private $repositiry;
+  private $em;
    public function __construct(PropertyRepository $repositiry)
     {
       $this->repositiry = $repositiry;
@@ -43,8 +48,7 @@ class PropertyController extends AbstractController
     $em = $this->getDoctrine()->getManager();
     $em->persist($property);
     $em->flush();*/
-    $property = $this->repositiry->findAllVisible();
-    dump($property);
+    
     return $this->render("property/index.html.twig", [
       'current_menu' => 'properties'
     ]);
